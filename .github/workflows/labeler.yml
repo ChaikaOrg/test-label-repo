@@ -10,6 +10,7 @@ jobs:
     name: Approve labeler
     steps:
       - name: Generate a github token
+        id: generate-github-token
         uses: actions/create-github-app-token@v1
         with:
           app-id: ${{ vars.LABELER_APP_ID }}
@@ -17,5 +18,5 @@ jobs:
       - name: Calling PullRequest review labeler
         uses: chaikaOrg/org-label-bot@main
         with:
-          github-token: ${{ steps.generate-token.outputs.token }}
+          github-token: ${{ steps.generate-github-token.outputs.token }}
           rules: '[["TeamRabbit", "rabbits"]]'
