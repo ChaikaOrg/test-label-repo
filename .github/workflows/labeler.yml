@@ -9,8 +9,14 @@ jobs:
     runs-on: ubuntu-22.04
     name: A job to say hello
     steps:
-      - name: "LABEL!"
+      - name: Generate a token
+        id: generate-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ vars.LABELER_APP_ID }}
+          private-key: ${{ secrets.LABELER_APP_PRIVATE_KEY }}
+      - name: BOT CALLING
         uses: chaikaOrg/org-label-bot@main
         with:
-          bot-app-id: ${{ vars.LABELER_APP_ID }}
-          bot-app-key: ${{ secrets.LABELER_APP_PRIVATE_KEY }}
+          github-token: ${{ steps.generate-token.outputs.token }}
+          rules: '[["TeamRabbit", "rabbits"]]'
