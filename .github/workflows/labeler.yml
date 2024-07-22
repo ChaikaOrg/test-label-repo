@@ -1,21 +1,20 @@
-name: PullRequest review labeler
+name: Approve labeler
 on:
   pull_request_review:
   pull_request:
     types: [ review_requested ]
 
 jobs:
-  hello_world_job:
+  approve_labeler_job:
     runs-on: ubuntu-22.04
-    name: A job to say hello
+    name: Approve labeler
     steps:
-      - name: Generate a token
-        id: generate-token
+      - name: Generate a github token
         uses: actions/create-github-app-token@v1
         with:
           app-id: ${{ vars.LABELER_APP_ID }}
           private-key: ${{ secrets.LABELER_APP_PRIVATE_KEY }}
-      - name: BOT CALLING
+      - name: Calling PullRequest review labeler
         uses: chaikaOrg/org-label-bot@main
         with:
           github-token: ${{ steps.generate-token.outputs.token }}
